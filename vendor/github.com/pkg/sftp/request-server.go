@@ -15,8 +15,6 @@ import (
 
 var maxTxPacket uint32 = 1 << 15
 
-type handleHandler func(string) string
-
 // Handlers contains the 4 SFTP server request handlers.
 type Handlers struct {
 	FileGet  FileReader
@@ -173,7 +171,7 @@ func (rs *RequestServer) packetWorker(
 			handle := rs.nextRequest(request)
 			rpkt = sshFxpHandlePacket{pkt.id(), handle}
 			if pkt.hasPflags(ssh_FXF_CREAT) {
-				if p := request.call(rs.Handlers, pkt); !isOk(p) {
+				if p := request.call(rs.Handlers, pkt); !statusOk(p) {
 					rpkt = p // if error in write, return it
 				}
 			}
@@ -202,7 +200,7 @@ func (rs *RequestServer) packetWorker(
 }
 
 // True is responsePacket is an OK status packet
-func isOk(rpkt responsePacket) bool {
+func statusOk(rpkt responsePacket) bool {
 	p, ok := rpkt.(sshFxpStatusPacket)
 	return ok && p.StatusError.Code == ssh_FX_OK
 }
@@ -237,8 +235,4 @@ func (rs *RequestServer) sendPacket(m encoding.BinaryMarshaler) error {
 		return errors.Errorf("unexpected packet type %T", m)
 	}
 	return nil
-}
-
-func (rs *RequestServer) sendError(p ider, err error) error {
-	return rs.sendPacket(statusFromError(p, err))
 }

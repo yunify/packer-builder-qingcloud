@@ -42,12 +42,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/golang/glog"
-  packages = ["."]
-  revision = "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
-
-[[projects]]
-  branch = "master"
   name = "github.com/hashicorp/errwrap"
   packages = ["."]
   revision = "7554cd9344cec97297fa6649b055a8c98c2a1e55"
@@ -80,7 +74,7 @@
   branch = "master"
   name = "github.com/hashicorp/go-version"
   packages = ["."]
-  revision = "4fe82ae3040f80a03d04d2cccb5606a626b8e1ee"
+  revision = "23480c0665776210b5fbbac6eaaee40e3e6a96b7"
 
 [[projects]]
   name = "github.com/hashicorp/packer"
@@ -91,6 +85,7 @@
     "communicator/none",
     "communicator/ssh",
     "communicator/winrm",
+    "helper/common",
     "helper/communicator",
     "helper/config",
     "helper/multistep",
@@ -101,14 +96,14 @@
     "template/interpolate",
     "version"
   ]
-  revision = "0b740f508f4f9b63442879a8c8f7a197b9a83dc1"
-  version = "v1.2.1"
+  revision = "ab8811dca8f375344f36dfc32710b9790b2ec03e"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
   name = "github.com/hashicorp/yamux"
   packages = ["."]
-  revision = "683f49123a33db61abfb241b7ac5e4af4dc54d55"
+  revision = "2658be15c5f05e76244154714161f17e3e77de2e"
 
 [[projects]]
   branch = "master"
@@ -188,8 +183,8 @@
 [[projects]]
   name = "github.com/pkg/sftp"
   packages = ["."]
-  revision = "0159c83e42a88e5c35180f73b84298a6bdde1ec1"
-  version = "1.4.0"
+  revision = "49488377fa2f14143ba3067cf7555f60f6c7b550"
+  version = "1.5.0"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -200,8 +195,8 @@
 [[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
-  revision = "d682213848ed68c0a260ca37d6dd5ace8423f5ba"
-  version = "v1.0.4"
+  revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
+  version = "v1.0.5"
 
 [[projects]]
   name = "github.com/stretchr/testify"
@@ -227,8 +222,8 @@
     "service",
     "utils"
   ]
-  revision = "113ace4576c9e1c0b5f2277b17a5a21c88bce405"
-  version = "v2.0.0-alpha.9"
+  revision = "050850ef0991f46c5d0902db8c22f59da5d6c4a2"
+  version = "v2.0.0-alpha.29"
 
 [[projects]]
   branch = "master"
@@ -244,7 +239,7 @@
     "ssh/agent",
     "ssh/terminal"
   ]
-  revision = "91a49db82a88618983a78a06c1cbd4e00ab749ab"
+  revision = "88942b9c40a4c9d203b82b3731787b672d6e809b"
 
 [[projects]]
   branch = "master"
@@ -255,7 +250,7 @@
     "html/charset",
     "proxy"
   ]
-  revision = "22ae77b79946ea320088417e4d50825671d82d57"
+  revision = "6078986fec03a1dcc236c34816c71b0e05018fda"
 
 [[projects]]
   branch = "master"
@@ -264,7 +259,7 @@
     "unix",
     "windows"
   ]
-  revision = "f6cff0780e542efa0c8e864dc8fa522808f6a598"
+  revision = "13d03a9a82fba647c21a0ef8fba44a795d0f0835"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -299,21 +294,12 @@
 [[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
-  version = "v2.1.1"
-
-[[projects]]
-  name = "k8s.io/kubernetes"
-  packages = [
-    "pkg/kubelet/cm/cpumanager/state",
-    "pkg/kubelet/cm/cpuset"
-  ]
-  revision = "d2835416544f298c919e2ead3be3d0864b52323b"
-  version = "v1.9.3"
+  revision = "86f5ed62f8a0ee96bd888d2efdfd6d4fb100a4eb"
+  version = "v2.2.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "27b99dcee93b2bd7be6f5634d50a865962e6ddaf4b699a172ab3a5e351c8143c"
+  inputs-digest = "38da64f08c74b643d2309fe7b84383a3b10d1c8993ca76e7e6b80294f0d1ebbe"
   solver-name = "gps-cdcl"
   solver-version = 1

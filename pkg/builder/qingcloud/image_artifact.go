@@ -27,10 +27,10 @@ func (artifact *ImageArtifact) String() string {
 }
 
 func (artifact *ImageArtifact) State(name string) interface{} {
-	artifact.ImageService.DescribeImages(&service.DescribeImagesInput{Images:[]*string{}})
-
+	return nil
 }
 
 func (artifact *ImageArtifact) Destroy() error {
-	artifact.ImageService.DeleteImages(&service.DeleteImagesInput{})
+	_,err:=artifact.ImageService.DeleteImages(&service.DeleteImagesInput{Images:service.StringSlice([]string{artifact.ImageID})})
+	return err
 }

@@ -12,9 +12,15 @@ type StepCreateVM struct {
 
 }
 
+const (
+	LOGIN_MODE_KEYPAIR = "keypair"
+)
+
 func (step *StepCreateVM) Run(ctx context.Context,state multistep.StateBag) multistep.StepAction {
 	config := state.Get(BuilderConfig).(Config)
 	ui := state.Get(UI).(packer.Ui)
+	ui.Message("Start to provision vm")
+
 	qservice:=config.GetQingCloudService()
 	instanceService,err:=qservice.Instance(config.Zone)
 	if err != nil {
@@ -32,6 +38,7 @@ func (step *StepCreateVM) Run(ctx context.Context,state multistep.StateBag) mult
 		InstanceClass:&config.InstanceClass,
 		SecurityGroup:service.String(securityGroupID),
 		LoginKeyPair: service.String(loginKeyPairID),
+		LoginMode:service.String(LOGIN_MODE_KEYPAIR),
 	})
 	if err != nil {
 		ui.Error(err.Error())
@@ -59,7 +66,11 @@ func (step *StepCreateVM) Run(ctx context.Context,state multistep.StateBag) mult
 }
 
 func (step *StepCreateVM) Cleanup(state multistep.StateBag) {
+	ui := state.Get(UI).(packer.Ui)
+	ui.Message("clean up  vm if needed")
+
 	instanceID,ok:=state.Get(InstanceID).(string)
+
 	if ok {
 		config := state.Get(BuilderConfig).(Config)
 		ui := state.Get(UI).(packer.Ui)
@@ -70,5 +81,7 @@ func (step *StepCreateVM) Cleanup(state multistep.StateBag) {
 			return
 		}
 		instanceService.TerminateInstances(&service.TerminateInstancesInput{Instances:[]*string{service.String(instanceID)}})
+		client.WaitInstanceStatus(instanceService,instanceID,"terminated",DefaultTimeout,DefaultInterval)
+		instanceService.CeaseInstances(&service.CeaseInstancesInput{Instances:[]*string{service.String(instanceID)}})
 	}
 }

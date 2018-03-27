@@ -5,7 +5,6 @@ import (
 	"github.com/hashicorp/packer/helper/multistep"
 	"github.com/hashicorp/packer/packer"
 	"github.com/yunify/qingcloud-sdk-go/service"
-	"io/ioutil"
 )
 
 type StepEnsureKeypair struct {
@@ -16,6 +15,8 @@ type StepEnsureKeypair struct {
 func (step *StepEnsureKeypair) Run(ctx context.Context, state multistep.StateBag) multistep.StepAction {
 	config, _ := state.Get(BuilderConfig).(Config)
 	ui, _ := state.Get(UI).(packer.Ui)
+	ui.Message("Create keypair if needed")
+
 	qservice := config.GetQingCloudService()
 
 	var loginKeyPairID string
@@ -74,12 +75,14 @@ func (step *StepEnsureKeypair) Run(ctx context.Context, state multistep.StateBag
 	state.Put(LoginKeyPairID, loginKeyPairID)
 	state.Put(PrivateKey,privateKey)
 
-	return multistep.ActionHalt
+	return multistep.ActionContinue
 }
 
 func (step *StepEnsureKeypair) Cleanup(state multistep.StateBag) {
 	config, _ := state.Get(BuilderConfig).(Config)
 	ui, _ := state.Get(UI).(packer.Ui)
+	ui.Message("Clean up keypair if needed")
+
 	keypairID, ok := state.Get(LoginKeyPairID).(string)
 	if ok && keypairID != config.KeypairID {
 		qservice := config.GetQingCloudService()

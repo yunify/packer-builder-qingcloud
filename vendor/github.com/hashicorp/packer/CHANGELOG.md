@@ -1,4 +1,40 @@
-## 1.2.1 (February 23, 2918)
+## 1.2.2 (March 26, 2018)
+
+### BUG FIXES:
+
+* builder/amazon: Fix AWS credential defaulting [GH-6019]
+* builder/LXC: make sleep timeout easily configurable [GH-6038]
+* builder/virtualbox: Correctly send multi-byte scancodes when typing boot
+    command. [GH-5987]
+* builder/virtualbox: Special boot-commands no longer overwrite previous
+    commands [GH-6002]
+* builder/vmware: Default to disabling XHCI bus for USB on the vmware-iso
+    builder. [GH-5975]
+* builder/vmware: Handle multiple devices per VMware network type [GH-5985]
+* communicator/ssh: Handle errors uploading files more gracefully [GH-6033]
+* provisioner/powershell: Fix environment variable file escaping. [GH-5973]
+
+
+### IMPROVEMENTS:
+
+* builder/amazon: Added new region `cn-northwest-1`. [GH-5960]
+* builder/amazon: Users may now access the amazon-generated administrator
+    password [GH-5998]
+* builder/azure: Add support concurrent deployments in the same resource group.
+    [GH-6005]
+* builder/azure: Add support for building with additional disks. [GH-5944]
+* builder/azure: Add support for marketplace plan information. [GH-5970]
+* builder/azure: Make all command output human readable. [GH-5967]
+* builder/azure: Respect `-force` for managed image deletion. [GH-6003]
+* builder/google: Add option to specify a service account, or to run without
+    one. [GH-5991] [GH-5928]
+* builder/oracle-oci: Add new "use_private_ip" option. [GH-5893]
+* post-processor/vagrant: Add LXC support. [GH-5980]
+* provisioner/salt-masterless: Added Windows support. [GH-5702]
+* provisioner/salt: Add windows support to salt provisioner [GH-6012] [GH-6012]
+
+
+## 1.2.1 (February 23, 2018)
 
 ### BUG FIXES:
 
@@ -411,7 +447,7 @@
 * builder/cloudstack: Properly report back errors. [GH-5103] [GH-5123]
 * builder/docker: Fix windows filepath in docker-toolbox call [GH-4887]
 * builder/docker: Fix windows filepath in docker-toolbox call. [GH-4887]
-* builder/hyperv: Use SID to verify membersip in Admin group, fixing for non-
+* builder/hyperv: Use SID to verify membership in Admin group, fixing for non-
     english users. [GH-5022]
 * builder/hyperv: Verify membership in the group Hyper-V Administrators by SID
     not name. [GH-5022]
@@ -658,7 +694,7 @@
 * builder/amazon: Crashes when new EBS vols are used. [GH-4308]
 * builder/amazon: Fix crash in amazon-instance. [GH-4372]
 * builder/amazon: fix run volume tagging [GH-4420]
-* builder/amazon: fix when using non-existant security\_group\_id. [GH-4425]
+* builder/amazon: fix when using non-existent security\_group\_id. [GH-4425]
 * builder/amazon: Properly error if we don't have the
     ec2:DescribeSecurityGroups permission. [GH-4304]
 * builder/amazon: Properly wait for security group to exist. [GH-4369]
@@ -1321,7 +1357,7 @@
 * builder/parallels: Support Parallels Desktop 11. [GH-2199]
 * builder/openstack: Add `rackconnect_wait` for Rackspace customers to wait for
     RackConnect data to appear
-* buidler/openstack: Add `ssh_interface` option for rackconnect for users that
+* builder/openstack: Add `ssh_interface` option for rackconnect for users that
     have prohibitive firewalls
 * builder/openstack: Flavor names can be used as well as refs
 * builder/openstack: Add `availability_zone` [GH-2016]
@@ -1352,7 +1388,7 @@
 * core: Fix potential panic for post-processor plugin exits. [GH-2098]
 * core: `PACKER_CONFIG` may point to a non-existent file. [GH-2226]
 * builder/amazon: Allow spaces in AMI names when using `clean_ami_name` [GH-2182]
-* builder/amazon: Remove deprecated ec2-upload-bundle paramger. [GH-1931]
+* builder/amazon: Remove deprecated ec2-upload-bundle parameter. [GH-1931]
 * builder/amazon: Use IAM Profile to upload bundle if provided. [GH-1985]
 * builder/amazon: Use correct exit code after SSH authentication failed. [GH-2004]
 * builder/amazon: Retry finding created instance for eventual
@@ -1435,7 +1471,7 @@
 
 * builder/googlecompute: Support for ubuntu-os-cloud project
 * builder/googlecompute: Support for OAuth2 to avoid client secrets file
-* builder/googlecompute: GCE image from persistant disk instead of tarball
+* builder/googlecompute: GCE image from persistent disk instead of tarball
 * builder/qemu: Checksum type "none" can be used
 * provisioner/chef: Generate a node name if none available
 * provisioner/chef: Added ssl_verify_mode configuration
@@ -1569,7 +1605,7 @@
 * builder/docker: Can now specify login credentials to pull images.
 * builder/docker: Support mounting additional volumes. [GH-1430]
 * builder/parallels/all: Path to tools ISO is calculated automatically. [GH-1455]
-* builder/parallels-pvm: `reassign_mac` option to choose wehther or not
+* builder/parallels-pvm: `reassign_mac` option to choose whether or not
     to generate a new MAC address. [GH-1461]
 * builder/qemu: Can specify "none" acceleration type. [GH-1395]
 * builder/qemu: Can specify "tcg" acceleration type. [GH-1395]
@@ -1598,7 +1634,7 @@
     manager certs. [GH-1137]
 * builder/amazon/all: `delete_on_termination` set to false will work.
 * builder/amazon/all: Fix race condition on setting tags. [GH-1367]
-* builder/amazon/all: More desctriptive error messages if Amazon only
+* builder/amazon/all: More descriptive error messages if Amazon only
     sends an error code. [GH-1189]
 * builder/docker: Error if `DOCKER_HOST` is set.
 * builder/docker: Remove the container during cleanup. [GH-1206]
@@ -2012,7 +2048,7 @@
 * builder/digitalocean: scrub API keys from config debug output. [GH-516]
 * builder/virtualbox: error if VirtualBox version cant be detected. [GH-488]
 * builder/virtualbox: detect if vboxdrv isn't properly setup. [GH-488]
-* builder/virtualbox: sleep a bit before export to ensure the sesssion
+* builder/virtualbox: sleep a bit before export to ensure the session
     is unlocked. [GH-512]
 * builder/virtualbox: create SATA drives properly on VirtualBox 4.3. [GH-547]
 * builder/virtualbox: support user templates in SSH key path. [GH-539]
@@ -2169,7 +2205,7 @@
 * builder/virtualbox,vmware: Support SHA512 as a checksum type. [GH-356]
 * builder/vmware: The root hard drive type can now be specified with
     "disk_type_id" for advanced users. [GH-328]
-* provisioner/salt-masterless: Ability to specfy a minion config. [GH-264]
+* provisioner/salt-masterless: Ability to specify a minion config. [GH-264]
 * provisioner/salt-masterless: Ability to upload pillars. [GH-353]
 
 ### IMPROVEMENTS:
@@ -2228,7 +2264,7 @@
 * core: All HTTP downloads across Packer now support the standard
     proxy environmental variables (`HTTP_PROXY`, `NO_PROXY`, etc.) [GH-252]
 * builder/amazon: API requests will use HTTP proxy if specified by
-    enviromental variables.
+    environmental variables.
 * builder/digitalocean: API requests will use HTTP proxy if specified
     by environmental variables.
 
@@ -2274,11 +2310,11 @@
 * builder/amazon-instance: send IAM instance profile data. [GH-294]
 * builder/digitalocean: API request parameters are properly URL
     encoded. [GH-281]
-* builder/virtualbox: dowload progress won't be shown until download
+* builder/virtualbox: download progress won't be shown until download
     actually starts. [GH-288]
 * builder/virtualbox: floppy files names of 13 characters are now properly
     written to the FAT12 filesystem. [GH-285]
-* builder/vmware: dowload progress won't be shown until download
+* builder/vmware: download progress won't be shown until download
     actually starts. [GH-288]
 * builder/vmware: interrupt works while typing commands over VNC.
 * builder/virtualbox: floppy files names of 13 characters are now properly
@@ -2400,7 +2436,7 @@
 ### BUG FIXES:
 
 * builder/amazon/all: Gracefully handle when AMI appears to not exist
-    while AWS state is propogating. [GH-207]
+    while AWS state is propagating. [GH-207]
 * builder/virtualbox: Trim carriage returns for Windows to properly
     detect VM state on Windows. [GH-218]
 * core: build names no longer cause invalid config errors. [GH-197]
@@ -2425,7 +2461,7 @@
 * Amazon EBS builder can now optionally use a pre-made security group
     instead of randomly generating one.
 * DigitalOcean API key and client IDs can now be passed in as
-    environmental variables. See the documentatin for more details.
+    environmental variables. See the documentation for more details.
 * VirtualBox and VMware can now have `floppy_files` specified to attach
     floppy disks when booting. This allows for unattended Windows installs.
 * `packer build` has a new `-force` flag that forces the removal of
@@ -2482,7 +2518,7 @@
 * core: Non-200 response codes on downloads now show proper errors.
     [GH-141]
 * amazon-ebs: SSH handshake is retried. [GH-130]
-* vagrant: The `BuildName` template propery works properly in
+* vagrant: The `BuildName` template property works properly in
     the output path.
 * vagrant: Properly configure the provider-specific post-processors so
     things like `vagrantfile_template` work. [GH-129]

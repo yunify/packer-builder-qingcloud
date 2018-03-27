@@ -5,12 +5,11 @@ import (
 	"os"
 
 	"github.com/hashicorp/packer/common"
+	"github.com/hashicorp/packer/helper/communicator"
 	"github.com/hashicorp/packer/helper/config"
 	"github.com/hashicorp/packer/template/interpolate"
 	qingcloudconfig "github.com/yunify/qingcloud-sdk-go/config"
 	"github.com/yunify/qingcloud-sdk-go/service"
-	"github.com/hashicorp/packer/packer"
-	"github.com/hashicorp/packer/helper/communicator"
 )
 
 const (
@@ -24,6 +23,11 @@ type Config struct {
 	ApiKey              string `mapstructure:"api_key"`
 	ApiSecret           string `mapstructure:"api_secret"`
 	Zone                string `mapstructure:"zone"`
+	Protocol            string `mapstructure:"protocol"`
+	Host                string `mapstructure:"host"`
+	Port                int    `mapstructure:"port"`
+	Uri                 string `mapstructure:"uri"`
+	LogLevel            string `mapstructure:"log_level"`
 	VxnetID             string `mapstructure:"vxnet_id"`
 	EIPID               string `mapstructure:"eip_id"`
 	SecurityGroupID     string `mapstructure:"securitygroup_id"`
@@ -78,13 +82,45 @@ func NewConfig(raws ...interface{}) (*Config, []string, error) {
 		c.BaseImageID = "xenial3x64"
 		warnings = append(warnings, "Set base image to default(ubuntu xenial3x64)")
 	}
+	if c.Host == "" {
+		c.Host = "api.qingcloud.com"
+	}
+	if c.Port == 0 {
+		c.Port = 443
+	}
+	if c.Protocol == "" {
+		c.Protocol = "https"
+	}
+	if c.Uri == "" {
+		c.Uri = "/iaas"
+	}
 	if c.VxnetID == "" {
 		c.VxnetID = "vxnet-0"
 		warnings = append(warnings, "Set vxnet to default(vxnet-0)")
 	}
+	if c.LogLevel == "" {
+		c.LogLevel = "info"
+	}
+	if c.PackerConfig.PackerDebug {
+		c.LogLevel = "debug"
+	}
 
+	if c.CPU ==0 {
+		c.CPU =1
+	}
+
+	if c.Memory == 0 {
+		c.Memory =1024
+	}
 	err = c.validate()
-	return c, warnings, err
+	if err != nil {
+		return nil,warnings,err
+	}
+	errs := c.Config.Prepare(&c.ctx)
+	if len(errs) >0 {
+		return nil,warnings,errs[0]
+	}
+	return c, warnings, nil
 }
 
 func (config *Config) validate() error {
@@ -128,7 +164,7 @@ func (config *Config) validate() error {
 	}
 
 	//validate security group
-	if len(config.SecurityGroupID) > 0  && config.SecurityGroupID != AllocateNewID{
+	if len(config.SecurityGroupID) > 0 && config.SecurityGroupID != AllocateNewID {
 		securityGroupService, err := qservice.SecurityGroup(config.Zone)
 		if err != nil {
 			return err
@@ -144,7 +180,7 @@ func (config *Config) validate() error {
 		}
 	}
 
-	if len(config.EIPID) > 0  && config.EIPID != AllocateNewID{
+	if len(config.EIPID) > 0 && config.EIPID != AllocateNewID {
 		eipService, err := qservice.EIP(config.Zone)
 		if err != nil {
 			return err
@@ -159,7 +195,7 @@ func (config *Config) validate() error {
 	}
 
 	//validate KeypairID
-	if len(config.KeypairID) > 0  && config.KeypairID != AllocateNewID && config.KeypairID != LocalKey{
+	if len(config.KeypairID) > 0 && config.KeypairID != AllocateNewID && config.KeypairID != LocalKey {
 		keypairService, err := qservice.KeyPair(config.Zone)
 		if err != nil {
 			return err
@@ -176,7 +212,7 @@ func (config *Config) validate() error {
 		}
 	}
 	if len(config.ImageArtifactName) == 0 {
-		config.ImageArtifactName = "packer"+config.PackerBuildName
+		config.ImageArtifactName = "packer" + config.PackerBuildName
 	}
 
 	return nil
@@ -187,6 +223,11 @@ func (config *Config) GetQingCloudService() *service.QingCloudService {
 	qconfig.AccessKeyID = config.ApiKey
 	qconfig.SecretAccessKey = config.ApiSecret
 	qconfig.Zone = config.Zone
+	qconfig.Protocol = config.Protocol
+	qconfig.Host = config.Host
+	qconfig.Port = config.Port
+	qconfig.URI = config.Uri
+	qconfig.LogLevel = config.LogLevel
 	qservice, _ := service.Init(qconfig)
 	return qservice
 }

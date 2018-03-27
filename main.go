@@ -8,7 +8,7 @@ import (
 func main() {
 	server, err := plugin.Server()
 	if err != nil {
-		//TODO: print error
+
 	}
 	server.RegisterBuilder(new(qingcloud.Builder))
 	server.Serve()

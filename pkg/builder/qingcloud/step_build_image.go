@@ -3,7 +3,6 @@ package qingcloud
 import (
 	"github.com/hashicorp/packer/helper/multistep"
 	"context"
-	"k8s.io/kubernetes/pkg/kubelet/cm/cpumanager/state"
 	"github.com/hashicorp/packer/packer"
 	"github.com/yunify/qingcloud-sdk-go/service"
 	"github.com/yunify/qingcloud-sdk-go/client"
@@ -17,6 +16,7 @@ func (step *StepBuildImage) Run(ctx context.Context,state multistep.StateBag) mu
 	config := state.Get(BuilderConfig).(Config)
 	ui := state.Get(UI).(packer.Ui)
 	instanceID := state.Get(InstanceID).(string)
+	ui.Message("Start to capture image")
 	qservice:=config.GetQingCloudService()
 	imageService,err:= qservice.Image(config.Zone)
 	if err != nil {
@@ -39,6 +39,7 @@ func (step *StepBuildImage) Run(ctx context.Context,state multistep.StateBag) mu
 		ui.Error(err.Error())
 		return multistep.ActionHalt
 	}
+	state.Put(ImageID,*imageOutput.ImageID)
 	return multistep.ActionContinue
 }
 
