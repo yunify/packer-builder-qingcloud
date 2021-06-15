@@ -1,4 +1,4 @@
-module github.com/yunify/packer-plugin-qingcloud
+module github.com/wangjiaxi90/packer-plugin-qingcloud
 
 go 1.16
 

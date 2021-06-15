@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/yunify/packer-plugin-qingcloud/builder/qingcloud"
-	qingcloudVersion "github.com/yunify/packer-plugin-qingcloud/version"
+	"github.com/wangjiaxi90/packer-plugin-qingcloud/builder/qingcloud"
+	qingcloudVersion "github.com/wangjiaxi90/packer-plugin-qingcloud/version"
 	"os"
 
 	"github.com/hashicorp/packer-plugin-sdk/plugin"
