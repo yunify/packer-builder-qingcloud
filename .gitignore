@@ -72,3 +72,6 @@ fabric.properties
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+main
+dist/*
+builder/qingcloud/builder_test.go
