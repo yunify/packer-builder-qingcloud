@@ -1,3 +1,4 @@
+//go:generate packer-sdc mapstructure-to-hcl2 -type Config
 package qingcloud
 
 import (
@@ -58,6 +59,7 @@ func NewConfig(raws ...interface{}) (*Config, []string, error) {
 	}
 
 	var ok bool
+	fmt.Println(c)
 	// 如果 APIKey / APISecret 为空，则从环境变量中获取
 	if c.ApiKey == "" {
 		c.ApiKey, ok = os.LookupEnv(QingCloudAPIKey)
@@ -105,20 +107,20 @@ func NewConfig(raws ...interface{}) (*Config, []string, error) {
 		c.LogLevel = "debug"
 	}
 
-	if c.CPU ==0 {
-		c.CPU =1
+	if c.CPU == 0 {
+		c.CPU = 1
 	}
 
 	if c.Memory == 0 {
-		c.Memory =1024
+		c.Memory = 1024
 	}
 	err = c.validate()
 	if err != nil {
-		return nil,warnings,err
+		return nil, warnings, err
 	}
 	errs := c.Config.Prepare(&c.ctx)
-	if len(errs) >0 {
-		return nil,warnings,errs[0]
+	if len(errs) > 0 {
+		return nil, warnings, errs[0]
 	}
 	return c, warnings, nil
 }

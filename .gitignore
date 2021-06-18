@@ -74,4 +74,4 @@ fabric.properties
 
 main
 dist/*
-packer-plugin-qingcloud
+builder/qingcloud/builder_test.go
